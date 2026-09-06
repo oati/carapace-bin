@@ -33,38 +33,31 @@ func ActionPackageSearch(registry string) carapace.Action {
 //	lodash
 func ActionPackageNames(registry string) carapace.Action {
 	return carapace.ActionCallback(func(c carapace.Context) carapace.Action {
-		args := []string{"search", "--parseable", "--searchlimit", "250", fmt.Sprintf(`/^%v`, c.Value)}
+		args := []string{"search", "--json", "--searchlimit", "250", fmt.Sprintf(`/^%v`, c.Value)}
 		if registry != "" {
 			args = append(args, "--registry", registry)
 		}
 
 		return carapace.ActionExecCommand("npm", args...)(func(output []byte) carapace.Action {
-			return carapace.ActionValuesDescribed(parseSearchOutput(output)...)
+			var results []struct {
+				Name        string `json:"name"`
+				Description string `json:"description"`
+			}
+			if err := json.Unmarshal(output, &results); err != nil {
+				return carapace.ActionMessage(err.Error())
+			}
+
+			vals := make([]string, 0, len(results)*2)
+			for _, result := range results {
+				description := result.Description
+				if index := strings.IndexAny(description, "\r\n"); index >= 0 {
+					description = description[:index]
+				}
+				vals = append(vals, result.Name, strings.TrimSpace(description))
+			}
+			return carapace.ActionValuesDescribed(vals...)
 		})
 	})
-}
-
-// parseSearchOutput converts `npm search --parseable` output into the
-// value/description pairs ActionValuesDescribed expects. Each line is
-// tab-separated (name, description, author, date, version, ...), but npm omits
-// trailing empty fields, so a package with no description yields a line with
-// only the name. Guard the description lookup so such a line does not panic.
-func parseSearchOutput(output []byte) []string {
-	lines := strings.Split(string(output), "\n")
-
-	vals := make([]string, 0)
-	for _, line := range lines {
-		if line == "" {
-			continue
-		}
-		fields := strings.Split(line, "\t")
-		description := ""
-		if len(fields) > 1 {
-			description = fields[1]
-		}
-		vals = append(vals, fields[0], description)
-	}
-	return vals
 }
 
 type PackageOpts struct {
