@@ -33,18 +33,27 @@ func ActionPackageSearch(registry string) carapace.Action {
 //	lodash
 func ActionPackageNames(registry string) carapace.Action {
 	return carapace.ActionCallback(func(c carapace.Context) carapace.Action {
-		args := []string{"search", "--parseable", "--searchlimit", "250", fmt.Sprintf(`/^%v`, c.Value)}
+		args := []string{"search", "--json", "--searchlimit", "250", fmt.Sprintf(`/^%v`, c.Value)}
 		if registry != "" {
 			args = append(args, "--registry", registry)
 		}
 
 		return carapace.ActionExecCommand("npm", args...)(func(output []byte) carapace.Action {
-			lines := strings.Split(string(output), "\n")
+			var results []struct {
+				Name        string `json:"name"`
+				Description string `json:"description"`
+			}
+			if err := json.Unmarshal(output, &results); err != nil {
+				return carapace.ActionMessage(err.Error())
+			}
 
-			vals := make([]string, 0)
-			for _, line := range lines[:len(lines)-1] {
-				fields := strings.Split(line, "\t")
-				vals = append(vals, fields[0], fields[1])
+			vals := make([]string, 0, len(results)*2)
+			for _, result := range results {
+				description := result.Description
+				if index := strings.IndexAny(description, "\r\n"); index >= 0 {
+					description = description[:index]
+				}
+				vals = append(vals, result.Name, strings.TrimSpace(description))
 			}
 			return carapace.ActionValuesDescribed(vals...)
 		})
