@@ -15,11 +15,12 @@ var listInstalledCmd = &cobra.Command{
 func init() {
 	carapace.Gen(listInstalledCmd).Standalone()
 
-	listInstalledCmd.Flags().BoolP("automatic", "a", false, "show packages that have been automatically installed as a dependency")
-	listInstalledCmd.Flags().StringP("build-host", "b", "", "only show packages that come from a particular build host")
-	listInstalledCmd.Flags().StringP("component", "c", "", "only show installed packages from the specified component")
-	listInstalledCmd.Flags().BoolP("install-info", "i", false, "show detailed installation information for each package")
-	listInstalledCmd.Flags().BoolP("long", "l", false, "show full details of each package instead of one line summaries")
+	listInstalledCmd.Flags().BoolP("automatic", "a", false, "show automatically installed packages and the parent dependency")
+	listInstalledCmd.Flags().StringP("component", "c", "", "list installed packages under given component")
+	listInstalledCmd.Flags().BoolP("explicit", "e", false, "show installed packages that were installed by a user")
+	listInstalledCmd.Flags().BoolP("install-info", "i", false, "show detailed install info")
+	listInstalledCmd.Flags().BoolP("long", "l", false, "show in long format")
+	listInstalledCmd.Flags().StringP("with-build-host", "b", "", "only list the installed packages built by the given host")
 
 	rootCmd.AddCommand(listInstalledCmd)
 }

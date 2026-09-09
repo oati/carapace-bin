@@ -22,6 +22,10 @@ func init() {
 
 	rootCmd.AddCommand(deltaCmd)
 
+	carapace.Gen(deltaCmd).FlagCompletion(carapace.ActionMap{
+		"output-dir": carapace.ActionDirectories(),
+	})
+
 	carapace.Gen(deltaCmd).PositionalAnyCompletion(
 		eopkg.ActionPackages().FilterArgs(),
 	)

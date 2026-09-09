@@ -20,7 +20,7 @@ func init() {
 	autoremoveCmd.Flags().Bool("ignore-comar", false, "bypass system configuration")
 	autoremoveCmd.Flags().Bool("ignore-dependency", false, "do not attempt the removal/validation of reverse dependencies")
 	autoremoveCmd.Flags().Bool("ignore-safety", false, "ignore safety switch on system.base component")
-	autoremoveCmd.Flags().BoolP("purge", "p", false, "remove files tagged as configuration files too")
+	autoremoveCmd.Flags().Bool("purge", false, "removes everything including changed config files of the package")
 
 	rootCmd.AddCommand(autoremoveCmd)
 

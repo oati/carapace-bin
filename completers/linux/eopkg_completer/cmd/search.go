@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"github.com/carapace-sh/carapace"
+	"github.com/carapace-sh/carapace-bin/pkg/actions/tools/eopkg"
 	"github.com/spf13/cobra"
 )
 
@@ -19,9 +20,12 @@ func init() {
 	searchCmd.Flags().BoolP("installdb", "i", false, "only search installed packages, ignoring repository candidates")
 	searchCmd.Flags().StringP("language", "l", "", "only search for summaries/descriptions with the matching language code")
 	searchCmd.Flags().Bool("name", false, "only search in the name field of packages")
-	searchCmd.Flags().StringP("repository", "r", "", "only search within the specified repository")
-	searchCmd.Flags().BoolP("sourcedb", "s", false, "only search source repositories")
+	searchCmd.Flags().StringP("repository", "r", "", "name of the source or package repository")
 	searchCmd.Flags().Bool("summary", false, "only search in the summary field of packages")
 
 	rootCmd.AddCommand(searchCmd)
+
+	carapace.Gen(searchCmd).FlagCompletion(carapace.ActionMap{
+		"repository": eopkg.ActionRepositories(),
+	})
 }

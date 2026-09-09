@@ -19,8 +19,9 @@ func init() {
 	removeCmd.Flags().StringP("component", "c", "", "remove any packages under the given component, and any child component")
 	removeCmd.Flags().BoolP("dry-run", "n", false, "only show what would happen, do not actually perform changes")
 	removeCmd.Flags().Bool("ignore-comar", false, "bypass system configuration")
+	removeCmd.Flags().Bool("ignore-dependency", false, "do not take dependency information into account")
 	removeCmd.Flags().Bool("ignore-safety", false, "ignore safety switch on system.base component")
-	removeCmd.Flags().BoolP("purge", "p", false, "remove files tagged as configuration files too")
+	removeCmd.Flags().Bool("purge", false, "removes everything including changed config files of the package")
 
 	rootCmd.AddCommand(removeCmd)
 

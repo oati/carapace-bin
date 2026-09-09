@@ -17,8 +17,9 @@ func init() {
 
 	removeOrphansCmd.Flags().BoolP("dry-run", "n", false, "only show what would happen, do not actually perform changes")
 	removeOrphansCmd.Flags().Bool("ignore-comar", false, "bypass system configuration")
+	removeOrphansCmd.Flags().Bool("ignore-dependency", false, "do not take dependency information into account")
 	removeOrphansCmd.Flags().Bool("ignore-safety", false, "ignore safety switch on system.base component")
-	removeOrphansCmd.Flags().BoolP("purge", "p", false, "remove files tagged as configuration files too")
+	removeOrphansCmd.Flags().Bool("purge", false, "removes everything including changed config files of the package")
 
 	rootCmd.AddCommand(removeOrphansCmd)
 }

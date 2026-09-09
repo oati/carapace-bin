@@ -17,8 +17,14 @@ func init() {
 	carapace.Gen(fetchCmd).Standalone()
 
 	fetchCmd.Flags().StringP("output-dir", "o", "", "override the output directory for the .eopkg")
+	fetchCmd.Flags().StringP("repo", "r", "", "fetch packages from a specified repository")
 
 	rootCmd.AddCommand(fetchCmd)
+
+	carapace.Gen(fetchCmd).FlagCompletion(carapace.ActionMap{
+		"output-dir": carapace.ActionDirectories(),
+		"repo":       eopkg.ActionRepositories(),
+	})
 
 	carapace.Gen(fetchCmd).PositionalAnyCompletion(
 		eopkg.ActionPackageSearch().FilterArgs(),

@@ -19,9 +19,12 @@ func init() {
 	indexCmd.Flags().String("compression-types", "", "comma separated list of compression types to use when producing the index")
 	indexCmd.Flags().StringP("output", "o", "", "override path to the output file")
 	indexCmd.Flags().Bool("skip-signing", false, "do not attempt to GPG sign the index")
-	indexCmd.Flags().Bool("skip-sources", false, "do not include pspec.xml legacy format eopkg definitions in the index")
 
 	rootCmd.AddCommand(indexCmd)
+
+	carapace.Gen(indexCmd).FlagCompletion(carapace.ActionMap{
+		"output": carapace.ActionFiles(),
+	})
 
 	carapace.Gen(indexCmd).PositionalAnyCompletion(
 		carapace.ActionDirectories(),

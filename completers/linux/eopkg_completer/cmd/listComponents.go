@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"github.com/carapace-sh/carapace"
+	"github.com/carapace-sh/carapace-bin/pkg/actions/tools/eopkg"
 	"github.com/spf13/cobra"
 )
 
@@ -19,4 +20,8 @@ func init() {
 	listComponentsCmd.Flags().StringP("repository", "r", "", "only list components in the specified repository")
 
 	rootCmd.AddCommand(listComponentsCmd)
+
+	carapace.Gen(listComponentsCmd).FlagCompletion(carapace.ActionMap{
+		"repository": eopkg.ActionRepositories(),
+	})
 }

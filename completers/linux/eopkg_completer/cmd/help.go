@@ -18,17 +18,6 @@ func init() {
 	rootCmd.AddCommand(helpCmd)
 
 	carapace.Gen(helpCmd).PositionalAnyCompletion(
-		carapace.ActionCallback(func(c carapace.Context) carapace.Action {
-			return carapace.ActionValues(
-				"add-repo", "autoremove", "blame", "build", "check", "clean",
-				"configure-pending", "delete-cache", "delta", "disable-repo",
-				"emerge", "enable-repo", "fetch", "graph", "help", "history",
-				"index", "info", "install", "list-available", "list-components",
-				"list-installed", "list-newest", "list-pending", "list-repo",
-				"list-sources", "list-upgrades", "rebuild-db", "remove",
-				"remove-orphans", "remove-repo", "search", "search-file",
-				"update-repo", "upgrade",
-			)
-		}),
+		carapace.ActionCommands(rootCmd),
 	)
 }
