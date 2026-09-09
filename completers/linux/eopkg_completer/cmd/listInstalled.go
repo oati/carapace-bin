@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"github.com/carapace-sh/carapace"
+	"github.com/carapace-sh/carapace-bin/pkg/actions/tools/eopkg"
 	"github.com/spf13/cobra"
 )
 
@@ -23,4 +24,8 @@ func init() {
 	listInstalledCmd.Flags().StringP("with-build-host", "b", "", "only list the installed packages built by the given host")
 
 	rootCmd.AddCommand(listInstalledCmd)
+
+	carapace.Gen(listInstalledCmd).FlagCompletion(carapace.ActionMap{
+		"component": eopkg.ActionComponents(),
+	})
 }

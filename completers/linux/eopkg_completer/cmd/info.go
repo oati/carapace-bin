@@ -26,8 +26,9 @@ func init() {
 	rootCmd.AddCommand(infoCmd)
 
 	carapace.Gen(infoCmd).FlagCompletion(carapace.ActionMap{
-		"repo":    eopkg.ActionRepositories(),
-		"sort-by": carapace.ActionValues("path", "size", "type"),
+		"component": eopkg.ActionComponents(),
+		"repo":      eopkg.ActionRepositories(),
+		"sort-by":   carapace.ActionValues("path", "size", "type"),
 	})
 
 	carapace.Gen(infoCmd).PositionalAnyCompletion(

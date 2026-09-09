@@ -33,6 +33,7 @@ func init() {
 	rootCmd.AddCommand(upgradeCmd)
 
 	carapace.Gen(upgradeCmd).FlagCompletion(carapace.ActionMap{
+		"component":  eopkg.ActionComponents(),
 		"repository": eopkg.ActionRepositories(),
 	})
 

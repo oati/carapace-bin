@@ -23,7 +23,8 @@ func init() {
 	rootCmd.AddCommand(deltaCmd)
 
 	carapace.Gen(deltaCmd).FlagCompletion(carapace.ActionMap{
-		"output-dir": carapace.ActionDirectories(),
+		"output-dir":     carapace.ActionDirectories(),
+		"package-format": carapace.ActionValues("1.0", "1.1", "1.2"),
 	})
 
 	carapace.Gen(deltaCmd).PositionalAnyCompletion(

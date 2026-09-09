@@ -36,7 +36,8 @@ func init() {
 	rootCmd.AddCommand(buildCmd)
 
 	carapace.Gen(buildCmd).FlagCompletion(carapace.ActionMap{
-		"output-dir": carapace.ActionDirectories(),
+		"output-dir":     carapace.ActionDirectories(),
+		"package-format": carapace.ActionValues("1.0", "1.1", "1.2"),
 	})
 
 	carapace.Gen(buildCmd).PositionalAnyCompletion(

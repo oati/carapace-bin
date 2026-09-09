@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"github.com/carapace-sh/carapace"
+	"github.com/carapace-sh/carapace-bin/pkg/actions/tools/eopkg"
 	"github.com/spf13/cobra"
 )
 
@@ -20,4 +21,8 @@ func init() {
 	listUpgradesCmd.Flags().BoolP("long", "l", false, "show detailed information on each package to be updated")
 
 	rootCmd.AddCommand(listUpgradesCmd)
+
+	carapace.Gen(listUpgradesCmd).FlagCompletion(carapace.ActionMap{
+		"component": eopkg.ActionComponents(),
+	})
 }

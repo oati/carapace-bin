@@ -20,6 +20,10 @@ func init() {
 
 	rootCmd.AddCommand(checkCmd)
 
+	carapace.Gen(checkCmd).FlagCompletion(carapace.ActionMap{
+		"component": eopkg.ActionComponents(),
+	})
+
 	carapace.Gen(checkCmd).PositionalAnyCompletion(
 		eopkg.ActionPackages().FilterArgs(),
 	)

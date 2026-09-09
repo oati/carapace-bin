@@ -58,3 +58,20 @@ func ActionRepositories() carapace.Action {
 		return carapace.ActionValuesDescribed(vals...)
 	}).Tag("repositories")
 }
+
+// ActionComponents completes components
+//
+//	desktop.kde (KDE desktop environment)
+//	server.python (Python server stack)
+func ActionComponents() carapace.Action {
+	return carapace.ActionExecCommand("eopkg", "--no-color", "list-components")(func(output []byte) carapace.Action {
+		lines := strings.Split(string(output), "\n")
+		vals := make([]string, 0)
+		for _, line := range lines {
+			if name, desc, found := strings.Cut(line, " - "); found {
+				vals = append(vals, strings.TrimSpace(name), strings.TrimSpace(desc))
+			}
+		}
+		return carapace.ActionValuesDescribed(vals...)
+	}).Tag("components")
+}

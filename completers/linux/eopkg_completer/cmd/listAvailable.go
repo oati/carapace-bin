@@ -22,6 +22,10 @@ func init() {
 
 	rootCmd.AddCommand(listAvailableCmd)
 
+	carapace.Gen(listAvailableCmd).FlagCompletion(carapace.ActionMap{
+		"component": eopkg.ActionComponents(),
+	})
+
 	carapace.Gen(listAvailableCmd).PositionalAnyCompletion(
 		eopkg.ActionRepositories().FilterArgs(),
 	)

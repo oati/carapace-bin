@@ -35,6 +35,7 @@ func init() {
 	rootCmd.AddCommand(installCmd)
 
 	carapace.Gen(installCmd).FlagCompletion(carapace.ActionMap{
+		"component":  eopkg.ActionComponents(),
 		"repository": eopkg.ActionRepositories(),
 	})
 

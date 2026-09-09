@@ -25,6 +25,10 @@ func init() {
 
 	rootCmd.AddCommand(removeCmd)
 
+	carapace.Gen(removeCmd).FlagCompletion(carapace.ActionMap{
+		"component": eopkg.ActionComponents(),
+	})
+
 	carapace.Gen(removeCmd).PositionalAnyCompletion(
 		eopkg.ActionPackages().FilterArgs(),
 	)
