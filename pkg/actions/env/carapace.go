@@ -76,6 +76,7 @@ func init() {
 				"CARAPACE_BUILTINS": carapace.ActionStyledValues(
 					"bash", "#d35673",
 					"cmd", "#4ed6d6",
+					"elvish", "#63b0b0",
 					"fish", "#7ea8fc",
 					"zsh", "#efda53",
 				).UniqueList(","),
