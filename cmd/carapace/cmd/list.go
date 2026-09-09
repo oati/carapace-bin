@@ -31,7 +31,7 @@ var listCmd = &cobra.Command{
 
 		if cmd.Flag("all").Changed {
 			os.Setenv(env.CARAPACE_EXCLUDES, "")
-			os.Setenv(env.CARAPACE_BUILTINS, "bash,cmd,fish,zsh")
+			os.Setenv(env.CARAPACE_BUILTINS, "bash,cmd,elvish,fish,zsh")
 		}
 
 		filter := choices.Choice{}
@@ -70,7 +70,7 @@ func init() {
 		carapace.ActionCallback(func(c carapace.Context) carapace.Action {
 			if listCmd.Flag("all").Changed {
 				c.Setenv(env.CARAPACE_EXCLUDES, "")
-				c.Setenv(env.CARAPACE_BUILTINS, "bash,cmd,fish,zsh")
+				c.Setenv(env.CARAPACE_BUILTINS, "bash,cmd,elvish,fish,zsh")
 			}
 			return carapacebin.ActionCompleters(false).NoSpace().Invoke(c).ToA()
 		}),
